@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+void anagram(char a[], char b[]) {
+    int i, j;
+    int check[52] = {0};  // Array to keep count of characters
+    
+    // Count characters in string a
+    for(i = 0; a[i] != '\0'; i++) {
+        if(a[i] >= 'a' && a[i] <= 'z') {
+            check[a[i] - 'a']++;
+        } else if(a[i] >= 'A' && a[i] <= 'Z') {
+            check[(a[i] - 'A') + 26]++;
+        }
+    }
+    
+    int diff;
+    int flag = 1;  // Initialize flag to true (1)
+    
+    // Decrement count based on characters in string b
+    for(j = 0; b[j] != '\0'; j++) {
+        if(b[j] >= 'a' && b[j] <= 'z') {
+            diff = b[j] - 'a';
+            check[diff]--;
+        } else if(b[j] >= 'A' && b[j] <= 'Z') {
+            diff = (b[j] - 'A') + 26;
+            check[diff]--;
+        }
+        
+        // If count goes negative, it's not an anagram
+        if(check[diff] < 0) {
+            flag = 0;
+            printf("not anagram\n");
+            break;
+        }
+    }
+    
+    // If flag is still true, it's an anagram
+    if(flag != 0) {
+        printf("anagram\n");
+    }
+    
+    return;
+}
+
+int main() {
+    char a[] = "listen";
+    char b[] = "silent";
+    
+    anagram(a, b);  // Should print "anagram"
+    
+    char c[] = "hello";
+    char d[] = "world";
+    
+    anagram(c, d);  // Should print "not anagram"
+    
+    return 0;
+}

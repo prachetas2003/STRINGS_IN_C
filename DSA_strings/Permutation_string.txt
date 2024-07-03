@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <string.h>
+
+void perm(char s[], int k) {
+    static int a[10] = {0};  // to keep track of used characters
+    static char res[10];     // to store the current permutation
+    
+    int i;
+
+    if (s[k] == '\0') { // when end of the string is reached
+        res[k] = '\0';  // null-terminate the permutation string
+        printf("%s\n", res);
+    } else {
+        for (i = 0; s[i] != '\0'; i++) { // loop over each character in the string
+            if (a[i] == 0) { // if character s[i] is not used
+                res[k] = s[i];
+                a[i] = 1;
+                perm(s, k + 1); // recursive call with next position
+                a[i] = 0; // backtrack: unmark character s[i] as used
+            }
+        }
+    }
+}
+
+int main() {
+    char str[] = "ABC";
+    perm(str, 0);
+    return 0;
+}
